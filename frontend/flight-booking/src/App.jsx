@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './Login';
 import FlightBooking from './FlightBooking';
 import { AuthContext } from './AuthContext';
+import Offer from './Offer';
 
 function App() {
   const { isLoggedIn } = useContext(AuthContext);
@@ -22,13 +23,8 @@ function App() {
             isLoggedIn ? <FlightBooking /> : <Navigate to="/login" />
           }
         />
-
-        <Route 
-          path="/booking"
-          element={
-            isLoggedIn ? <Offer props={}/> : <Navigate to="/login" />
-        }
-        />
+        
+        <Route path="/booking" element={<Offer/>} />
 
         {/* Default redirect to FlightBooking if no specific route matches */}
         <Route path="/" element={<Navigate to="/flightbooking" />} />
