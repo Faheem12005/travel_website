@@ -1,6 +1,5 @@
 import { useState,useEffect } from "react"
 import Offer from "./Offer";
-import { useNavigate } from "react-router-dom";
 
 
 function FlightBooking(){
@@ -11,14 +10,6 @@ function FlightBooking(){
     const [nonstop,setNonstop] = useState(false);
     const [showOffer, setShowOffer] = useState(false);
     const [flightData,setFlightData] = useState(null);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-      if (showOffer && flightData) {
-        navigate("/booking", { state: { flightData } });
-      }
-    }, [showOffer, flightData, navigate]);
-
 
     const handleSubmit = async(event) => {
         event.preventDefault();
@@ -53,6 +44,7 @@ function FlightBooking(){
     };
     
     return (
+      <>
           <form onSubmit={handleSubmit}>
               <div>
                 <label>Origin Location Code
@@ -86,6 +78,8 @@ function FlightBooking(){
               </div>
               <button type="submit">Check for Offers!</button>
           </form>
+          {showOffer && <Offer data={flightData}/>}
+      </>
     ) 
 }
 
