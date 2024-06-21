@@ -3,10 +3,16 @@ const axios = require('axios');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv')
+dotenv.config();
 const app = express();
 app.use(cors({credentials:true, origin: 'http://localhost:5173'}));
 app.use(cookieParser());
 app.use(express.json());
+
+const clientId = process.env.CLIENT_ID;
+const clientSecret = process.env.CLIENT_SECRET;
+
 
 const users = [{ id: 1, username: 'user', password: 'password' }];
 const secretKey = 'secretkey';
@@ -29,10 +35,8 @@ const getNewAccessToken = async () => {
     try {
         const params = new URLSearchParams();
         params.append('grant_type', 'client_credentials');
-        params.append('client_id', 'VqvGFpuYS1Cj79AUsXjnbNAFkWQcAyb5');
-        params.append('client_secret', 'hUX7acbznCgA5WiC');
-
-        console.log('Sending request with data:', params.toString());
+        params.append('client_id', clientId);
+        params.append('client_secret', clientSecret);
 
         const response = await axios.post("https://test.api.amadeus.com/v1/security/oauth2/token", params.toString(), {
             headers: {
