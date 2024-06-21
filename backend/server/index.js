@@ -88,6 +88,10 @@ app.post('/login', Auth, (req, res) => {
     res.json({ message: 'Logged in successfully' }); 
 });
 
+app.get('/search',(req,res) => {
+    
+});
+
 
 
 const PORT = process.env.PORT || 3000;
