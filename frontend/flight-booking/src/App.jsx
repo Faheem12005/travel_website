@@ -9,6 +9,7 @@ function App() {
 
   return (
     <Router>
+      <h1 className='text-yellow-500 text-9xl'>NIGGER</h1>
       <Routes>
         {/* Route for Login component */}
         <Route path="/login" element={
