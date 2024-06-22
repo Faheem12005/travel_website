@@ -1,8 +1,9 @@
 import { useState,useEffect } from "react"
-import Offer from "./Offer";
-import Search from "./Arrival";
-import TravellersDropdown from "./Travellers";
-import Nonstop from "./Nonstop";
+import Offer from "../Offer";
+import Search from "../components/Arrival";
+import TravellersDropdown from "../Travellers";
+import Nonstop from "../Nonstop";
+import Navbar from "../Navbar";
 
 function FlightBooking(){
     const [olc,setOlc] = useState('');
@@ -47,6 +48,7 @@ function FlightBooking(){
     
     return (
       <>
+      <Navbar/>
       <form id="submit" className="flex flex-row space-x-4 p-6 pb-1" onSubmit={handleSubmit}>
       <Search setDest={setOlc}/>
       <Search setDest={setDlc}/>

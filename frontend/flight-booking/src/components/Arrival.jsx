@@ -53,8 +53,8 @@ const Search = ({setDest}) => {
         setShowDropdown(false);
       }
     };
-
     useEffect(() => {
+    
       document.addEventListener("mousedown", handleClickOutside);
   
       return () => {
@@ -73,8 +73,8 @@ const Search = ({setDest}) => {
                 placeholder="Enter City, Airport"
                 onFocus={() => setShowDropdown(true)}
             />
-            {showDropdown && query && !loading && (
-                <ul className="shadow-sm px-2 py-2 border rounded-md w-64 overflow-hidden absolute">
+            {showDropdown && suggestions.length>0 && (
+                <ul className="shadow-sm px-2 py-2 border rounded-md w-64 overflow-hidden absolute bg-white z-10">
                     {suggestions.map((suggestion, index) => (
                         <li className="truncate cursor-pointer hover:bg-sky-600 px-4 py-1 border rounded-sm border-none" key={index} onClick={() => handleSelect(suggestion)}>
                             <span className="mr-2 text-sm">{suggestion.iataCode} - {suggestion.name}</span>

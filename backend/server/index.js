@@ -4,6 +4,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv')
+const cron = require('node-cron');
 dotenv.config();
 const app = express();
 app.use(cors({credentials:true, origin: 'http://localhost:5173'}));
@@ -51,7 +52,7 @@ const getNewAccessToken = async () => {
     }
 };
 getNewAccessToken();
-setInterval(getNewAccessToken, 3600000)
+cron.schedule('0 */1 * * *', getNewAccessToken);
 
 const getAmadeusToken = async (req,res,next) => {
     req.token = access;

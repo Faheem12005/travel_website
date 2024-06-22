@@ -1,6 +1,6 @@
 import React from "react";
 import { format, differenceInMinutes } from 'date-fns';
-import WaitIcon from "../public/wait";
+import WaitIcon from "../../public/wait";
 
 function Offer({data}) {
     const formatDuration = (duration) => {
@@ -117,7 +117,7 @@ function Offer({data}) {
                             <div className="col-span-1 flex items-center justify-end mt-2 space-x-5">
                                 <span className="text-xl font-bold">€{offer.price.total}</span>
                                 {/* {offer.price.currency} */}
-                                <button className="px-14 py-4 bg-amber-500 rounded-xl">Book</button>
+                                <button className="px-14 py-4 bg-amber-500 rounded-xl text-white font-bold hover:bg-amber-600">Book</button>
                             </div>
                         </div>
                     </div>
