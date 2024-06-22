@@ -12,10 +12,10 @@ app.use(express.json());
 
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
+const secretKey = process.env.SECRET_KEY;
 
 
 const users = [{ id: 1, username: 'user', password: 'password' }];
-const secretKey = 'secretkey';
 
 const Auth = (req,res,next) => {
     const {username,password} = req.body;
@@ -88,8 +88,23 @@ app.post('/login', Auth, (req, res) => {
     res.json({ message: 'Logged in successfully' }); 
 });
 
-app.get('/search',(req,res) => {
-    
+app.get('/search',async (req,res) => {
+    const params = new URLSearchParams();
+    params.append('subType','AIRPORT,CITY');
+    params.append('keyword',req.query.keyword);
+    params.append('view','LIGHT');
+    try{
+        const response = await axios.get('https://test.api.amadeus.com/v1/reference-data/locations', {
+            headers: {
+                'Authorization':`Bearer ${access}`
+            },
+            params
+        });
+        res.json(response.data);
+    } catch(error){
+        console.error('Error fetching flights:', error.response.data);
+        throw new Error('Failed to retrieve flight names');
+    }    
 });
 
 

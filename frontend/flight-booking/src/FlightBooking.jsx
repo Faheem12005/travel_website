@@ -1,6 +1,8 @@
 import { useState,useEffect } from "react"
 import Offer from "./Offer";
-
+import Search from "./Arrival";
+import TravellersDropdown from "./Travellers";
+import Nonstop from "./Nonstop";
 
 function FlightBooking(){
     const [olc,setOlc] = useState('');
@@ -45,40 +47,18 @@ function FlightBooking(){
     
     return (
       <>
-          <form onSubmit={handleSubmit}>
-              <div>
-                <label>Origin Location Code
-                <input type='text' value={olc} onChange={(e) => setOlc(e.target.value)}/>
-                </label>
-              </div>
-              <div>
-                <label>Departure Location Code
-                <input type='text' value={dlc} onChange={(e) => setDlc(e.target.value)}/>
-                </label> 
-              </div>
-              <div>
-                <label>Departure Date
-                <input type='text' value={departureDate} onChange={(e) => setDepartureDate(e.target.value)}/>
-                </label> 
-              </div>
-              <div>
-                <label>adults
-                <input type='text' value={adults} onChange={(e) => setAdults(e.target.value)}/>
-                </label> 
-              </div>
-              <div>
-                <label>NonStop
-                </label>
-                <label htmlFor="option1">
-                  <input type="radio" id="option1" value={true} checked={nonstop === true} onChange={(e) => setNonstop(true)}/>
-                </label>
-                <label htmlFor="option2">
-                  <input type="radio" id="option2" value={false} checked={nonstop === false} onChange={(e) => setNonstop(false)}/>
-                </label>
-              </div>
-              <button type="submit">Check for Offers!</button>
-          </form>
-          {showOffer && <Offer data={flightData}/>}
+      <form id="submit" className="flex flex-row space-x-4 p-6 pb-1" onSubmit={handleSubmit}>
+      <Search setDest={setOlc}/>
+      <Search setDest={setDlc}/>
+      <div>
+        <label htmlFor="date"></label>
+        <input className="border border-gray-300 pl-1 pr-4 py-2 rounded-md h-12" name="date" type='date' value={departureDate} onChange={(e) => setDepartureDate(e.target.value)}/>
+      </div>
+      <TravellersDropdown setTravellers={setAdults}/>
+      <Nonstop setNonstop={setNonstop}/>
+      <button form="submit" className="px-6 py-2 bg-gray-900 text-white border rounded-lg" type="submit">Search</button>
+      </form>
+      {showOffer && <Offer data={flightData}/>}
       </>
     ) 
 }

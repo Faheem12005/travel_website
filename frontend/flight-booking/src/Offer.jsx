@@ -32,6 +32,9 @@ function Offer({data}) {
             return(
                 <div>{arrival.split('T')[1].slice(0,5)}<span className="text-gray-400 font text-sm font-extralight">+3D</span></div>)
         }
+        else{
+            return(<div>{arrival.split('T')[1].slice(0,5)}</div>)
+        }
     }
 
     const calculateLayover = (layover,arrival, departure) => {
@@ -66,11 +69,8 @@ function Offer({data}) {
         }
     };
 
-    console.log(data.data[7])
-
     return (
-        <div className="container mx-auto p-6">
-            <h1 className="text-3xl font-bold mb-6 text-center">Flight Offers</h1>
+        <div className="container p-6">
             {
                 data.data.map((offer, index) => (
                     <div key={index} className="bg-white shadow-sm rounded-lg px-6 py-3 mb-6 max-w-5xl h-32 min-w-fit border">
