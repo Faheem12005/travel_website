@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './Login';
+import Login from './pages/Login'
 import FlightBooking from './pages/FlightBooking';
 import { AuthContext } from './components/AuthContext';
 

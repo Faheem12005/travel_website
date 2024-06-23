@@ -1,9 +1,10 @@
 import { useState,useEffect } from "react"
-import Offer from "../Offer";
+import Offer from "./Offer";
 import Search from "../components/Arrival";
-import TravellersDropdown from "../Travellers";
-import Nonstop from "../Nonstop";
-import Navbar from "../Navbar";
+import TravellersDropdown from "../components/Travellers";
+import Nonstop from "../components/Nonstop";
+import Navbar from "./Navbar";
+import SkeletonOffer from "../components/SkeletonOffers";
 
 function FlightBooking(){
     const [olc,setOlc] = useState('');
@@ -13,9 +14,11 @@ function FlightBooking(){
     const [nonstop,setNonstop] = useState(false);
     const [showOffer, setShowOffer] = useState(false);
     const [flightData,setFlightData] = useState(null);
+    const [loading,setLoading] = useState(false);
 
     const handleSubmit = async(event) => {
         event.preventDefault();
+        setLoading(true);
         const formData = {
             originLocationCode: olc,
             destinationLocationCode: dlc,
@@ -40,8 +43,11 @@ function FlightBooking(){
             const data = await response.json();
             setFlightData(data);
             setShowOffer(true);
+            
         } catch(error){
             console.error(`Error catching flights`,error);
+        } finally {
+            setLoading(false);
         }
 
     };
@@ -49,6 +55,7 @@ function FlightBooking(){
     return (
       <>
       <Navbar/>
+      <div className="flex flex-col justify-center items-center">
       <form id="submit" className="flex flex-row space-x-4 p-6 pb-1" onSubmit={handleSubmit}>
       <Search setDest={setOlc}/>
       <Search setDest={setDlc}/>
@@ -60,7 +67,8 @@ function FlightBooking(){
       <Nonstop setNonstop={setNonstop}/>
       <button form="submit" className="px-6 py-2 bg-gray-900 text-white border rounded-lg" type="submit">Search</button>
       </form>
-      {showOffer && <Offer data={flightData}/>}
+      {loading ? <SkeletonOffer/> : (showOffer && <Offer data={flightData}/>)}
+      </div>
       </>
     ) 
 }

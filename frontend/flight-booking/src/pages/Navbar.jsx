@@ -12,8 +12,8 @@ function Navbar() {
   };
 
   return (
-    <div>
-      <button onClick={handleClick}>Logout</button>
+    <div className="p-4 flex justify-end">
+      <button className="hover:underline" onClick={handleClick}>Logout</button>
     </div>
   );
 }

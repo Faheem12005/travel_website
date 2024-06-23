@@ -51,10 +51,7 @@ function Offer({data}) {
                         <div className="text-xs">{hours}h {minutes}m</div>
                         <div className="text-xs">{layover}</div>
                     </div>
-
                 </div>
-                
-                
             );
         } else {
             return(
@@ -70,7 +67,7 @@ function Offer({data}) {
     };
 
     return (
-        <div className="container p-6">
+        <div className="container p-6 flex flex-col justify-center items-center">
             {
                 data.data.map((offer, index) => (
                     <div key={index} className="bg-white shadow-sm rounded-lg px-6 py-3 mb-6 max-w-5xl h-32 min-w-fit border">
