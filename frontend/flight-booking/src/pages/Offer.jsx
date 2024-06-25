@@ -1,8 +1,12 @@
 import React from "react";
 import { format, differenceInMinutes } from 'date-fns';
 import WaitIcon from "../../public/wait";
+import { useNavigate } from "react-router-dom";
 
 function Offer({data}) {
+    const navigate = useNavigate();
+
+    console.log(data.data[0]);
     const formatDuration = (duration) => {
         const match = duration.match(/PT(\d+H)?(\d+M)?/);
         const hours = match[1] ? parseInt(match[1].replace('H', '')) : 0;
@@ -66,11 +70,17 @@ function Offer({data}) {
         }
     };
 
+    const handleBookClick = (offer) => {
+        console.log(`Offer being passed as state ${offer}`);
+        navigate(`/offer/${offer.id}`, { state: { offer } });
+    };
+
+
     return (
         <div className="container p-6 flex flex-col justify-center items-center">
             {
                 data.data.map((offer, index) => (
-                    <div key={index} className="bg-white shadow-sm rounded-lg px-6 py-3 mb-6 max-w-5xl h-32 min-w-fit border">
+                    <div key={index} className="bg-white shadow-sm rounded-lg px-6 py-3 mb-6 h-32 w-8/12 border">
                         <div className="grid sm:grid-cols-3 grid-cols-1">
                             {/* Grid column 1: Flight details */}
                             <div className="col-span-1 flex justify-self-start items-center">
@@ -114,7 +124,7 @@ function Offer({data}) {
                             <div className="col-span-1 flex items-center justify-end mt-2 space-x-5">
                                 <span className="text-xl font-bold">€{offer.price.total}</span>
                                 {/* {offer.price.currency} */}
-                                <button className="px-14 py-4 bg-amber-500 rounded-xl text-white font-bold hover:bg-amber-600">Book</button>
+                                <button className="px-14 py-4 bg-amber-500 rounded-xl text-white font-bold hover:bg-amber-600" onClick={() => {handleBookClick(offer)}}>Book</button>
                             </div>
                         </div>
                     </div>

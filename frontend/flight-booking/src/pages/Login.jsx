@@ -9,9 +9,9 @@ function Login() {
   const { login } = useContext(AuthContext);
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    event.preve
     try {
-      const response = await fetch('http://localhost:3000/login', {
+      const response = await fetch('/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -34,22 +34,50 @@ function Login() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>
-          Username:
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-        </label>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className='flex flex-col md:flex-row items-center bg-white rounded shadow-md overflow-hidden max-w-4xl'>
+        <form className='flex flex-col p-8' onSubmit={handleSubmit}>
+          <h2 className="text-2xl font-bold mb-6 text-gray-900">Login</h2>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Username:
+              <input 
+                type="text" 
+                value={username} 
+                onChange={(e) => setUsername(e.target.value)} 
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+              />
+            </label>
+          </div>
+          <div className="mb-6">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
+              Password:
+              <input 
+                type="password" 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} 
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" 
+              />
+            </label>
+          </div>
+          <button 
+            type="submit" 
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Login
+          </button>
+        </form>
+        <div className="flex items-center justify-center w-full md:w-1/2">
+          <img 
+            className="w-full h-auto object-cover"
+            src='/loginbg.jpg' 
+            alt='Login background'
+          />
+        </div>
       </div>
-      <div>
-        <label>
-          Password:
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        </label>
-      </div>
-      <button type="submit">Login</button>
-    </form>
+    </div>
   );
+  
 }
 
 export default Login;

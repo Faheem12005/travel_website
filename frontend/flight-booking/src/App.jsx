@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './pages/Login'
 import FlightBooking from './pages/FlightBooking';
 import { AuthContext } from './components/AuthContext';
+import FlightOffer from './pages/FlightOffer';
 
 function App() {
   const { isLoggedIn } = useContext(AuthContext);
@@ -20,6 +21,13 @@ function App() {
           path="/flightbooking"
           element={
             isLoggedIn ? <FlightBooking /> : <Navigate to="/login" />
+          }
+        />
+
+        <Route
+          path="/offer/:id"
+          element={
+            isLoggedIn ? <FlightOffer/> : <Navigate to="/login"/>
           }
         />
 

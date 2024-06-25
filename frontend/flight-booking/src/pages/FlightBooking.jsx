@@ -27,7 +27,7 @@ function FlightBooking(){
             nonStop: nonstop,
           };
         try{
-            const response = await fetch("http://localhost:3000/flights", {
+            const response = await fetch("api/flights", {
                 method: 'POST',
                 headers: {
                     'Content-Type':'application/json',
@@ -42,6 +42,7 @@ function FlightBooking(){
 
             const data = await response.json();
             setFlightData(data);
+            console.log(data);
             setShowOffer(true);
             
         } catch(error){
@@ -67,7 +68,7 @@ function FlightBooking(){
       <Nonstop setNonstop={setNonstop}/>
       <button form="submit" className="px-6 py-2 bg-gray-900 text-white border rounded-lg" type="submit">Search</button>
       </form>
-      {loading ? <SkeletonOffer/> : (showOffer && <Offer data={flightData}/>)}
+      {loading ? <SkeletonOffer/> : ((showOffer && flightData.data.length>0) ? <Offer data={flightData}/> : showOffer && <div>No flight Offers found</div>)}
       </div>
       </>
     ) 

@@ -13,7 +13,6 @@ function Nonstop({ setNonstop }) {
 
     useEffect(() => {
         setNonstop(nonstop);
-        console.log(nonstop);
     }, [nonstop, setNonstop]);
 
     return (

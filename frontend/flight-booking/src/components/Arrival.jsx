@@ -19,7 +19,7 @@ const Search = ({setDest}) => {
 
         setLoading(true);
         try {
-            const response = await axios.get('http://localhost:3000/search', {
+            const response = await axios.get('api/search', {
                 params: { keyword: query }
             });
             console.log(response.data.data);
@@ -41,7 +41,6 @@ const Search = ({setDest}) => {
     }, [query, fetchSuggestions]);
 
     const handleSelect = (suggestion) => {
-      console.log(suggestion);
       setDest(suggestion.iataCode);
       setQuery(`${suggestion.iataCode}-${suggestion.address.cityName}`);
       setShowDropdown(false);

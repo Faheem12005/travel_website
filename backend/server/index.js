@@ -3,13 +3,16 @@ const axios = require('axios');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
+const path = require('path');
 const dotenv = require('dotenv')
-const cron = require('node-cron');
 dotenv.config();
 const app = express();
 app.use(cors({credentials:true, origin: 'http://localhost:5173'}));
 app.use(cookieParser());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'dist')));
+const router = express.Router();
+app.use('/api', router);
 
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
@@ -38,21 +41,23 @@ const getNewAccessToken = async () => {
         params.append('grant_type', 'client_credentials');
         params.append('client_id', clientId);
         params.append('client_secret', clientSecret);
-
+        console.log(`Sending request for token with params ${params.toString()}`)
         const response = await axios.post("https://test.api.amadeus.com/v1/security/oauth2/token", params.toString(), {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded' // Corrected Content-Type header
             }
         });
-
+        console.log(`${response.data.access_token} recieved`);
         access = response.data.access_token;
+        console.log(`${access} as access token has been set`);
     } catch (error) {
         console.error('Error fetching token:', error.response.data);
         throw new Error('Failed to retrieve access token');
     }
 };
 getNewAccessToken();
-cron.schedule('0 */1 * * *', getNewAccessToken);
+setInterval(getNewAccessToken,45*60*1000);
+
 
 const getAmadeusToken = async (req,res,next) => {
     req.token = access;
@@ -76,20 +81,20 @@ const authJWT = (req,res,next) => {
 
 const flightRoutes = require('./routes/getFlights.js');
 
-app.use('/flights', authJWT, getAmadeusToken, (req, res, next) => {
+router.use('/flights', authJWT, getAmadeusToken, (req, res, next) => {
     console.log(req.body);
     flightRoutes(req,res,next);
 });
 
 
-app.post('/login', Auth, (req, res) => {
+router.post('/login', Auth, (req, res) => {
     const { username } = req.body;
     const token = jwt.sign({ username }, secretKey, { expiresIn: '1h' });
     res.cookie('authToken', token, { httpOnly: false, secure: false, maxAge: 3600000 }); // Set secure: true in production
     res.json({ message: 'Logged in successfully' }); 
 });
 
-app.get('/search',async (req,res) => {
+router.get('/search',async (req,res) => {
     const params = new URLSearchParams();
     params.append('subType','AIRPORT,CITY');
     params.append('keyword',req.query.keyword);
@@ -108,6 +113,10 @@ app.get('/search',async (req,res) => {
     }    
 });
 
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  });
 
 
 const PORT = process.env.PORT || 3000;
